@@ -1,0 +1,208 @@
+.entryLabel{
+  border:1px;
+  border-style: outset;
+  border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;
+  border-top-left-radius: 10px; border-top-right-radius: 10px;
+  width: 300px;
+  color: black;
+  display: block;
+  padding: 10px;
+  background-color: pink;
+  animation-duration: 7s;
+  font-family: 'Press Start 2P';
+  user-select: none;
+}
+.animated
+{
+  animation-name: example;
+
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+.mainthing
+{
+
+}
+.entry{
+  border: 4px outset;
+  width: 300px;
+  height: 300px;
+  border-radius: 10px;
+  padding-top: 50px;
+  border-top: 0px;
+
+  padding: 5px;
+  background-color:lightgreen;
+  margin-bottom: 10px;
+  font-family: 'Press Start 2P';
+  overflow-y:scroll;
+
+}
+.entry:nth-of-type(2n)
+{
+
+}
+.property{
+
+  border: 4px outset;
+  width: 200px;
+  border-radius: 10px;
+  border-top: 0px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  display: block;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: lightgrey;
+
+}
+.phoneNumber{
+  background-color: lightblue;
+  animation-duration: 1s;
+}
+.name{
+  background-color: lightblue;
+  animation-duration: 10s;
+}
+
+.propertyLabel{
+
+  border:4px outset;
+  border-bottom-left-radius: 0px; border-bottom-right-radius: 0px;
+  border-top-left-radius: 10px; border-top-right-radius: 10px;
+  width: 200px;
+  color: black;
+  display: block;
+  padding: 5px;
+  border-bottom: 0px;
+  animation-duration: 10s;
+}
+
+#entries{
+  width: 400px;
+  margin: 100px;
+  border: 4px inset;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: lightgrey;
+  font-family: 'Press Start 2P';
+
+}
+
+@keyframes example {
+  0% {
+    transform:
+    translate(0px, 0px)
+    rotate3d(0, 0, 0, 0deg);
+  }
+  25%{
+    transform:
+    translate(1px, -2px)
+    rotate3d(.1, .2, .5, 2deg);
+  }
+  50%{
+    transform:
+    translate(-2px, 1px)
+    rotate3d(-.1, -.5, -.1, 2deg);
+  }
+  75%
+  {
+    transform:
+    translate(-2px, 5px)
+    rotate3d(-.1, .5, -.5, -2deg);
+  }
+  100% {
+    transform:
+    translate(0px, 0px)
+    rotate3d(0, 0, 0, 0deg);
+  }
+}
+.buttonlikething{
+  cursor:pointer;
+}
+.buttonlikething:hover
+
+{
+  cursor:pointer;
+}
+/* The element to apply the animation to */
+.jumbotron{
+  font-family: 'Press Start 2P';
+  padding: 10px;
+
+}
+#ebselect
+{
+
+}
+.remote{
+  position:fixed;
+  right:50px;
+  text-align: center;
+  bottom: 50px;
+  font-family: 'Press Start 2P';
+  border:4px outset;
+  border-radius: 10px;
+  padding:10px;
+  animation-duration:10s;
+  background-color: lightgrey;
+
+}
+.btn-default{
+  border:4px outset;
+  border-radius: 5px;
+  padding: 2px;
+  user-select: none;
+}
+.btn
+{
+  width: 150px;
+  cursor: crosshair;
+  user-select: none;
+}
+#newContactForm{
+  animation-duration: 50s;
+  position:fixed;
+  right:100px;
+  bottom: 20%;
+  width: 200px;
+  height: 500px;
+}
+body{
+
+  background: transparent;
+  background-image: url(space.gif);
+  background-repeat: repeat;
+  animation-name: bgmove;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+  background-
+}
+.container{
+
+}
+.labelclose{
+
+  align-content: right;
+  align-self: right;
+  margin-left: 50px;
+  cursor: crosshair;
+  user-select: none;
+}
+
+.transform
+{
+  transition: all 1s ease;
+  margin-bottom: 0px;
+}
+.transform-active{
+  margin-bottom: -640px;
+}
+#ashdust{
+  height: 100%;
+  width:100%;
+}
+#ashdustvideo{
+  height:100%;
+  width:100%;
+}

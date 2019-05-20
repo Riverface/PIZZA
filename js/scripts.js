@@ -4,18 +4,19 @@ $(document).ready(function() {
 
 });
 
-function Init(){
+function Init() {
   var parlor = new Parlor();
   var user = new Cart();
-  user.currpos=0;
+  user.currpos = 0;
   AddProps(parlor);
   HideBotnik();
   InitialPrint(parlor);
-  AddHooks(parlor,user);
+  AddHooks(parlor, user);
 }
-function AddProps(parl){
 
-  parl.sizes = [new Size("small", 6.25),new Size("medium", 8.00),new Size("Large",10.00)];
+function AddProps(parl) {
+
+  parl.sizes = [new Size("small", 6.25), new Size("medium", 8.00), new Size("Large", 10.00)];
   parl.toppings = [
     new Topping("Pepperoni", 1.00),
     new Topping("sausage", 1.00),
@@ -24,60 +25,55 @@ function AddProps(parl){
   ];
 }
 
-function AddHooks(parl,cart){
-  $("#addbutton").click(function(){
+function AddHooks(parl, cart) {
+  $("#addbutton").click(function() {
     $("#subtotal").empty();
     peetz = new Pizza();
-    $("#toppings").val().forEach(function(top){
+    $("#toppings").val().forEach(function(top) {
       peetz.toppings.push(parl.toppings[top]);
     });
     peetz.size = parl.sizes[$("#sizes").val()];
     CheckBotnik(peetz);
     cart.pizzas.push(peetz);
     CartGen(cart);
-    $("#histmove").change(function(){
-        MoveHist(cart,$('#histmove').val());
-        console.log("cum");
-                console.log($("#histmove").val());
+    $("#histmove").change(function() {
+      MoveHist(cart, $('#histmove').val());
     });
   });
 
-  $("#buybutton").click(function(){
+  $("#buybutton").click(function() {
     BuyPizza(cart);
-    MoveHist(cart,(cart.history.length-1));
+    MoveHist(cart, (cart.history.length - 1));
 
   });
 
 }
 
-function HideBotnik(){
+function HideBotnik() {
   $("#ashdust").hide();
-  $("#ashdustvideo").on('ended',function(){
+  $("#ashdustvideo").on('ended', function() {
     location.reload();
   });
 }
 
-function InitialPrint(parl){
+function InitialPrint(parl) {
   $("#sizes").append(parl.listsizes());
   $("#toppings").append(parl.ToppingWriter());
 }
 
-function CheckBotnik(pizz){
+function CheckBotnik(pizz) {
   iterate = 0;
-  pizz.toppings.forEach(function(topper){
+  pizz.toppings.forEach(function(topper) {
 
-    if((topper.name === "Ash") || (topper.name === "Dust") ){
+    if ((topper.name === "Ash") || (topper.name === "Dust")) {
 
       iterate++;
-      console.log(topper.name);
-      console.log(iterate);
-    }
 
-    else{
+    } else {
       iterate--;
     }
 
-    if(iterate == 2){
+    if (iterate == 2) {
       $("#createpizza").hide();
       $("#buypizza").hide();
       $("#ashdust").show();
@@ -87,33 +83,35 @@ function CheckBotnik(pizz){
     }
   });
 }
-function Cart(pizzas){
+
+function Cart(pizzas) {
   this.pizzas = [];
   this.price = countsubtotal(this);
   this.history = []
   this.currpos;
 }
 
-function countsubtotal(shoppingcart){
-  shoppingcart.pizzas.forEach(function(peetza){
+function countsubtotal(shoppingcart) {
+  shoppingcart.pizzas.forEach(function(peetza) {
     subtotal += peetza.price;
     return subtotal;
   });
 }
 
-function Parlor(){
+function Parlor() {
   this.toppings = [];
   this.pizzas = [];
   this.sizes = [];
   this.subtotal = "";
 
 }
-function Size(name, price){
+
+function Size(name, price) {
   this.name = name;
   this.price = price;
 }
 
-function Topping(name,price){
+function Topping(name, price) {
   this.name = name;
   this.price = price;
   this.amount;
@@ -121,53 +119,46 @@ function Topping(name,price){
 }
 
 
-function Pizza(size){
-  this.toppings=[];
-  this.size=size;
+function Pizza(size) {
+  this.toppings = [];
+  this.size = size;
 }
 
-Parlor.prototype.ToppingWriter = function(){
+Parlor.prototype.ToppingWriter = function() {
   writer = "";
 
-  for(var currtop = 0; this.toppings.length > currtop; currtop++){
-    writer+="<option value='" + currtop + "'>" + this.toppings[currtop].name + "</option>";
+  for (var currtop = 0; this.toppings.length > currtop; currtop++) {
+    writer += "<option value='" + currtop + "'>" + this.toppings[currtop].name + "</option>";
 
   }
   return writer;
 }
-function CartGen(cart){
+
+function CartGen(cart) {
   $("#subtotal").empty();
   writer = null;
 
   writer = "<div class='propertyLabel'>Receipt</div>";
   writer += "<div class='property'>";
   pizziterate = 0;
-  cart.pizzas.forEach(function(thispizza){
-    writer += "<br><div id='pizza"+ pizziterate +"'>";
+  cart.pizzas.forEach(function(thispizza) {
+    writer += "<br><div id='pizza" + pizziterate + "'>";
     writer += thispizza.size.name;
-    if(thispizza.toppings.length == 0){
+    if (thispizza.toppings.length == 0) {
 
       writer += thispizza.size.price + " pizza";
     }
-    if(thispizza.toppings.length > 0){
-      writer+= "with:<br>";
+    if (thispizza.toppings.length > 0) {
+      writer += "with:<br>";
     }
 
-    thispizza.toppings.forEach(function(top){
-
-
-      writer+= top.name;
-      writer+= top.price.toFixed(2);
-      writer+= "<br>";
-
+    thispizza.toppings.forEach(function(top) {
+      writer += top.name;
+      writer += top.price.toFixed(2);
+      writer += "<br>";
     });
-    writer+= "<br>"+thispizza.price();
-
-    writer+= "</div>";
-
-
-    console.log($("#pizza"+pizziterate));
-    console.log(writer);
+    writer += "<br>" + thispizza.price();
+    writer += "</div>";
     $("#subtotal").html(writer);
     $("#subtotal").append("</div>");
     pizziterate++;
@@ -181,10 +172,10 @@ function CartGen(cart){
   return writer;
 }
 
-Parlor.prototype.listsizes = function(){
+Parlor.prototype.listsizes = function() {
   sizewriter = "";
 
-  for(var currsize = 0; this.sizes.length > currsize; currsize++){
+  for (var currsize = 0; this.sizes.length > currsize; currsize++) {
 
 
 
@@ -198,87 +189,83 @@ Parlor.prototype.listsizes = function(){
   return sizewriter;
 }
 
-function AddCloseButton(cart){
+function AddCloseButton(cart) {
   secondwriter = "";
 
-  for(var pizziterate=0;pizziterate < cart.pizzas.length;pizziterate++){
-    secondwriter += "<input type='button' value='x' id='closepizza"+ (pizziterate) +"'> </input><hr>";
-    console.log(secondwriter);
-    console.log(pizziterate);
-    $("#pizza"+pizziterate).append(secondwriter);
-    secondwriter="";
+  for (var pizziterate = 0; pizziterate < cart.pizzas.length; pizziterate++) {
+    secondwriter += "<input type='button' value='x' id='closepizza" + (pizziterate) + "'> </input><hr>";
+    $("#pizza" + pizziterate).append(secondwriter);
+    secondwriter = "";
   }
 
   secondwriter = "";
-  for(pizziterate=0;pizziterate < cart.pizzas.length;pizziterate++){
-    $("#closepizza"+pizziterate).click(function() {
-      cart.pizzas.splice(pizziterate-1,1);
+  for (pizziterate = 0; pizziterate < cart.pizzas.length; pizziterate++) {
+    $("#closepizza" + pizziterate).click(function() {
+      cart.pizzas.splice(pizziterate - 1, 1);
       CartGen(cart);
     });
   }
 }
 
-Pizza.prototype.price = function(){
+Pizza.prototype.price = function() {
   theprice = this.size.price;
-  this.toppings.forEach(function(topp){
+  this.toppings.forEach(function(topp) {
     theprice += topp.price;
   });
   return theprice;
 }
-Cart.prototype.total = function(){
+Cart.prototype.total = function() {
   totalprice = 0;
-  this.pizzas.forEach(function(thepizza){
-    totalprice+=thepizza.price();
+  this.pizzas.forEach(function(thepizza) {
+    totalprice += thepizza.price();
   });
 }
-Pizza.prototype.size = function(){
-}
-function BuyPizza(cart){
+
+function BuyPizza(cart) {
+  if(cart.pizzas != []){
+
   cart.history.push(CartGen(cart));
-  console.log(cart.history);
+
   TotalPrint(cart);
   $("#histmove").html();
   histwriter = "";
-  for(var writeiterate = 0; writeiterate < cart.history.length;writeiterate++){
-    histwriter +="<option name='" + "' value='" + writeiterate + "'>"+ writeiterate +"</option>";
-    console.log();
+  for (var writeiterate = 0; writeiterate < cart.history.length; writeiterate++) {
+    histwriter += "<option name='" + "' value='" + writeiterate + "'>" + writeiterate + "</option>";
+
   }
-  $("#histmove").append(histwriter);
+  $("#histmove").html(histwriter);
+}
 }
 
-function TotalPrint(cart){
+function TotalPrint(cart) {
   $("#subtotal").empty();
   writer = null;
 
   writer = "<div class='propertyLabel'>Receipt</div>";
   writer += "<div class='property'>";
   pizziterate = 0;
-  cart.pizzas.forEach(function(thispizza){
-    writer += "<br><div id='pizza"+ pizziterate +"'>";
+  cart.pizzas.forEach(function(thispizza) {
+    writer += "<br><div id='pizza" + pizziterate + "'>";
     writer += thispizza.size.name;
-    if(thispizza.toppings.length == 0){
+    if (thispizza.toppings.length == 0) {
 
       writer += thispizza.size.price + " pizza";
     }
-    if(thispizza.toppings.length > 0){
-      writer+= "with:<br>";
+    if (thispizza.toppings.length > 0) {
+      writer += "with:<br>";
     }
 
-    thispizza.toppings.forEach(function(top){
-
-
-      writer+= top.name;
-      writer+= top.price.toFixed(2);
-      writer+= "<br>";
-
+    thispizza.toppings.forEach(function(top) {
+      writer += top.name;
+      writer += top.price.toFixed(2);
+      writer += "<br>";
     });
-    writer+= "<br>"+thispizza.price();
+    writer += "<br>" + thispizza.price();
 
-    writer+= "</div>";
+    writer += "</div>";
 
 
-    console.log($("#pizza"+pizziterate));
-    console.log(writer);
+
     $("#subtotal").html(writer);
     $("#subtotal").append("</div>");
     pizziterate++;
@@ -289,69 +276,62 @@ function TotalPrint(cart){
   //AddCloseButton(pizziterate,cart);
 
   AddCloseButton(cart);
-  return writer;
+  //return writer;
+
   thirdwriter = "";
 
 
-  cart.history.forEach(function(histentry){
-    thirdwriter  += "<div id='history"+ cart.currpos+"'>";
-    thirdwriter += histentry;
-    thirdwriter  +="</div>";
-  });
+
+  for (currhist = 0; currhist < cart.history.length; currhist++) {
+    thirdwriter += "<div id='history" + currhist + "'>";
+    thirdwriter += cart.history[currhist];
+    thirdwriter += "</div></div>";
+  }
 
   $("#history").html(thirdwriter);
   $("#subtotal").html("");
-  cart.order = [];
-  $("#history"+ cart.currpos).hide();
-  if(currpos == 0){
-    $("#history"+ cart.currpos).show();
-  }
-  cart.currpos++;
+  cart.pizzas = [];
+
 }
 
-function MoveHist(cart, target){
+function MoveHist(cart, target) {
   var hysterectomy = 0; //history iterator
-  for(hysterectomy = 0; hysterectomy < cart.history.length;hysterectomy++){
+  for (hysterectomy = 0; hysterectomy < cart.history.length; hysterectomy++) {
 
-    $("#history"+hysterectomy).hide();
-    console.log(hysterectomy);
+    $("#history" + hysterectomy).hide();
+
   }
-  $("#history"+target).show();
+  $("#history" + target).show();
 }
-function ReceiptGen(cart){
+
+function ReceiptGen(cart) {
 
   $("#receipts").empty();
   writer = null;
-
   writer = "<div class='propertyLabel'>Receipt</div>";
   writer += "<div class='property'>";
   pizziterate = 0;
-  cart.pizzas.forEach(function(thispizza){
+  cart.pizzas.forEach(function(thispizza) {
 
     writer += thispizza.size.name;
-    if(thispizza.toppings.length == 0){
+    if (thispizza.toppings.length == 0) {
 
       writer += thispizza.size.price + " pizza";
     }
-    if(thispizza.toppings.length > 0){
-      writer+= "with:<br>";
+    if (thispizza.toppings.length > 0) {
+      writer += "with:<br>";
     }
 
-    thispizza.toppings.forEach(function(top){
+    thispizza.toppings.forEach(function(top) {
 
 
-      writer+= top.name;
-      writer+= top.price.toFixed(2);
-      writer+= "<br>";
+      writer += top.name;
+      writer += top.price.toFixed(2);
+      writer += "<br>";
 
     });
-    writer+= "<br>"+thispizza.price();
-
-    writer+= "</div>";
-
-
-    console.log($("#pizza"+pizziterate));
-    console.log(writer);
+    writer += "<br>" + thispizza.price();
+    writer += "</div>";
     $("#subtotal").html(writer);
     $("#subtotal").append("</div>");
     pizziterate++;

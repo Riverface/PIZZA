@@ -35,17 +35,19 @@ function AddHooks(parl,cart){
     CheckBotnik(peetz);
     cart.pizzas.push(peetz);
     CartGen(cart);
+    $("#histmove").change(function(){
+        MoveHist(cart,$('#histmove').val());
+        console.log("cum");
+                console.log($("#histmove").val());
+    });
   });
 
   $("#buybutton").click(function(){
     BuyPizza(cart);
+    MoveHist(cart,(cart.history.length-1));
+
   });
-  $("#histfw").click(function(){
-    MoveHist(1,cart.currpos,cart);
-  });
-  $("#histbk").click(function(){
-    MoveHist(-1,cart.currpos,cart);
-  });
+
 }
 
 function HideBotnik(){
@@ -54,10 +56,12 @@ function HideBotnik(){
     location.reload();
   });
 }
+
 function InitialPrint(parl){
   $("#sizes").append(parl.listsizes());
   $("#toppings").append(parl.ToppingWriter());
 }
+
 function CheckBotnik(pizz){
   iterate = 0;
   pizz.toppings.forEach(function(topper){
@@ -89,12 +93,14 @@ function Cart(pizzas){
   this.history = []
   this.currpos;
 }
+
 function countsubtotal(shoppingcart){
   shoppingcart.pizzas.forEach(function(peetza){
     subtotal += peetza.price;
     return subtotal;
   });
 }
+
 function Parlor(){
   this.toppings = [];
   this.pizzas = [];
@@ -196,19 +202,19 @@ function AddCloseButton(cart){
   secondwriter = "";
 
   for(var pizziterate=0;pizziterate < cart.pizzas.length;pizziterate++){
-        secondwriter += "<input type='button' value='x' id='closepizza"+ (pizziterate) +"'> </input><hr>";
-        console.log(secondwriter);
-            console.log(pizziterate);
-            $("#pizza"+pizziterate).append(secondwriter);
-            secondwriter="";
+    secondwriter += "<input type='button' value='x' id='closepizza"+ (pizziterate) +"'> </input><hr>";
+    console.log(secondwriter);
+    console.log(pizziterate);
+    $("#pizza"+pizziterate).append(secondwriter);
+    secondwriter="";
   }
 
   secondwriter = "";
   for(pizziterate=0;pizziterate < cart.pizzas.length;pizziterate++){
-            $("#closepizza"+pizziterate).click(function() {
-              CartGen(cart);
-              cart.pizzas.splice(pizziterate-1,1);
-            });
+    $("#closepizza"+pizziterate).click(function() {
+      cart.pizzas.splice(pizziterate-1,1);
+      CartGen(cart);
+    });
   }
 }
 
@@ -231,6 +237,13 @@ function BuyPizza(cart){
   cart.history.push(CartGen(cart));
   console.log(cart.history);
   TotalPrint(cart);
+  $("#histmove").html();
+  histwriter = "";
+  for(var writeiterate = 0; writeiterate < cart.history.length;writeiterate++){
+    histwriter +="<option name='" + "' value='" + writeiterate + "'>"+ writeiterate +"</option>";
+    console.log();
+  }
+  $("#histmove").append(histwriter);
 }
 
 function TotalPrint(cart){
@@ -282,7 +295,6 @@ function TotalPrint(cart){
 
   cart.history.forEach(function(histentry){
     thirdwriter  += "<div id='history"+ cart.currpos+"'>";
-
     thirdwriter += histentry;
     thirdwriter  +="</div>";
   });
@@ -297,27 +309,16 @@ function TotalPrint(cart){
   cart.currpos++;
 }
 
-function MoveHist(dir,currpos,cart){
-console.log(currpos);
-if(cart.history.length == 1){
-currpos = 0;
-}
-if(currpos >  0){
-if(currpos<cart.history.length){
-$("#history"+currpos).hide();
-$("#history"+currpos).show();
-currpos+=dir;
-}
-}
-else{
+function MoveHist(cart, target){
+  var hysterectomy = 0; //history iterator
+  for(hysterectomy = 0; hysterectomy < cart.history.length;hysterectomy++){
 
-  $("#history"+currpos).show();
+    $("#history"+hysterectomy).hide();
+    console.log(hysterectomy);
+  }
+  $("#history"+target).show();
 }
-
-
-
-}
-ReceiptGen(cart){
+function ReceiptGen(cart){
 
   $("#receipts").empty();
   writer = null;

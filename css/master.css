@@ -15,7 +15,6 @@
 .animated
 {
   animation-name: example;
-
   animation-iteration-count: infinite;
   animation-timing-function: linear;
 }
@@ -36,7 +35,7 @@
   margin-bottom: 10px;
   font-family: 'Press Start 2P';
   overflow-y:scroll;
-
+  animation-duration: 7s;
 }
 .entry:nth-of-type(2n)
 {
@@ -76,6 +75,7 @@
   padding: 5px;
   border-bottom: 0px;
   animation-duration: 10s;
+  background-color:lightgrey;
 }
 
 #entries{
@@ -128,8 +128,8 @@
 /* The element to apply the animation to */
 .jumbotron{
   font-family: 'Press Start 2P';
-  padding: 10px;
-
+  padding: 30px;
+  top:0;
 }
 #ebselect
 {
@@ -146,7 +146,7 @@
   padding:10px;
   animation-duration:10s;
   background-color: lightgrey;
-
+z-index: 1000;
 }
 .btn-default{
   border:4px outset;
@@ -176,7 +176,6 @@ body{
   animation-name: bgmove;
   animation-duration: 10s;
   animation-iteration-count: infinite;
-  background-
 }
 .container{
 
@@ -205,4 +204,75 @@ body{
 #ashdustvideo{
   height:100%;
   width:100%;
+}
+
+#interface{
+
+height: 800px;
+background-color:lightblue;
+background-image: url("../media/Pizzabg.png");
+background-size:250px;
+border: 4px outset;
+
+border-radius: 10px;
+padding-top: 50px;
+border-top: 0px;
+
+padding: 5px;
+margin-bottom: 10px;
+font-family: 'Press Start 2P';
+overflow-y:scroll;
+
+}
+#histshell{
+  position:sticky;
+  margin-left:500px;
+  bottom:20%;
+  background-color:pink;
+
+}
+#subtcon{
+  position:sticky;
+    animation-duration: 7s;
+    float:left;
+}
+#tomorrowill{
+  animation-name: tomorrowill;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-duration: 20s;
+}
+
+@keyframes tomorrowill {
+  0% {
+    transform:
+    translate(0px, 0px)
+    rotate3d(0, 0, 0, 0deg)
+    scale(1)
+
+  }
+  25%{
+    transform:
+    translate(0px, 50vh)
+    rotate3d(.1, .2, .5, 2deg)
+    scale(2);
+  }
+  50%{
+    transform:
+    translate(80vw, 50vh)
+    rotate3d(-.1, -.5, -.1, 2deg)
+    scale(1.5);
+  }
+  75%
+  {
+    transform:
+    translate(80vw, 0px)
+    rotate3d(-.1, .5, -.5, -2deg)
+    scale(3);
+  }
+  100% {
+    transform:
+    translate(0px, 0px)
+    scale(1);
+  }
 }

@@ -4,28 +4,65 @@ $(document).ready(function() {
 
 });
 
+//initialize all components
 function Init() {
   var parlor = new Parlor();
   var user = new Cart();
+  var vid = $("#ebselect")[0];
   user.currpos = 0;
   AddProps(parlor);
   HideBotnik();
   InitialPrint(parlor);
-  AddHooks(parlor, user);
+  AddHooks(parlor, user,vid);
+  $("#histshell").hide();
+  $("#subtcon").hide();
+  AddRemote(vid);
 }
 
+//Add functionality to the volume control remote
+function AddRemote(vid){
+  $("#volup").click(function(){
+    vid.volume += .05;
+  });
+  $("#voldown").click(function(){
+    vid.volume -= .05;
+  });
+  $("#mute").click(function(){
+
+    vid.muted =  !vid.muted;
+  });
+
+    var storedVolume = 0;
+      vid.volume = 0.75;
+}
+//add properties
 function AddProps(parl) {
 
-  parl.sizes = [new Size("small", 6.25), new Size("medium", 8.00), new Size("Large", 10.00)];
+  parl.sizes = [
+    new Size("small", 6.25),
+    new Size("medium", 8.00),
+    new Size("Large", 10.00)
+  ];
   parl.toppings = [
     new Topping("Pepperoni", 1.00),
-    new Topping("sausage", 1.00),
+    new Topping("Iodine",0.00),
+    new Topping("Beets", 2.00),
+    new Topping("Nerds rope", 2.00),
+    new Topping("creamed corn", .50),
+    new Topping("Gravel", 0),
+    new Topping("Anchovies",2.00),
     new Topping("Dust", 0),
-    new Topping("Ash", 0)
+    new Topping("Ash", 0),
+    new Topping("toenails",5.00),
+    new Topping("olives",.50),
+    new Topping("Salami",1.00),
+    new Topping("Chicken", 1.00),
+    new Topping("sausage", 1.00)
   ];
 }
 
-function AddHooks(parl, cart) {
+//Add hooks/listeners
+function AddHooks(parl, cart,vid) {
   $("#addbutton").click(function() {
     $("#subtotal").empty();
     peetz = new Pizza();
@@ -33,38 +70,54 @@ function AddHooks(parl, cart) {
       peetz.toppings.push(parl.toppings[top]);
     });
     peetz.size = parl.sizes[$("#sizes").val()];
-    CheckBotnik(peetz);
+    CheckBotnik(peetz,vid);
     cart.pizzas.push(peetz);
     CartGen(cart);
-    $("#histmove").change(function() {
-      MoveHist(cart, $('#histmove').val());
-    });
+    $("#subtcon").show();
   });
+  $("#histmove").change(function() {
+    MoveHist(cart, $('#histmove').val());
 
+  });
   $("#buybutton").click(function() {
     BuyPizza(cart);
     MoveHist(cart, (cart.history.length - 1));
+    $("#histmove").val(cart.history.length-1);
+    $("#histshell").show();
 
   });
 
 }
-
+//Hide robotnik until the time comes and refresh when videos are over
 function HideBotnik() {
   $("#ashdust").hide();
+  $("#tomorrowill").hide();
   $("#ashdustvideo").on('ended', function() {
     location.reload();
   });
+  $("#tomorrowill").on('ended', function() {
+    location.reload();
+  });
 }
-
+//print the sizes and toppings.
 function InitialPrint(parl) {
   $("#sizes").append(parl.listsizes());
   $("#toppings").append(parl.ToppingWriter());
 }
-
-function CheckBotnik(pizz) {
+//See if it's time for Robotnik to wake up and/or perform
+function CheckBotnik(pizz,vid) {
   iterate = 0;
+  pingas=0;
   pizz.toppings.forEach(function(topper) {
-
+    if (topper.name === "Pepperoni" ||
+    topper.name == "Iodine" ||
+    topper.name == "Nerds rope" ||
+     topper.name == "Gravel" ||
+     topper.name == "Anchovies" ||
+     topper.name == "Salami"
+  ){
+    pingas++;
+  }
     if ((topper.name === "Ash") || (topper.name === "Dust")) {
 
       iterate++;
@@ -74,6 +127,7 @@ function CheckBotnik(pizz) {
     }
 
     if (iterate == 2) {
+      $(".jumbotron").hide();
       $("#createpizza").hide();
       $("#buypizza").hide();
       $("#ashdust").show();
@@ -81,9 +135,21 @@ function CheckBotnik(pizz) {
       $("#subtcon").hide();
       $("#ashdustvideo")[0].play();
     }
+    if (pingas == 6) {
+      $(".jumbotron").hide();
+      $("#ashdust").hide();
+      $("#interface").hide();
+      $("#ashdustvideo").hide();
+      $("#ashdustvideo")[0].pause();
+      vid.pause();
+      vid = $("#tomorrowill")[0];
+      vid.play();
+      $("#tomorrowill").show();
+      $(document.body).css("background-image", "url(./media/dance.gif)");
+    }
   });
 }
-
+//
 function Cart(pizzas) {
   this.pizzas = [];
   this.price = countsubtotal(this);
@@ -129,7 +195,6 @@ Parlor.prototype.ToppingWriter = function() {
 
   for (var currtop = 0; this.toppings.length > currtop; currtop++) {
     writer += "<option value='" + currtop + "'>" + this.toppings[currtop].name + "</option>";
-
   }
   return writer;
 }
@@ -142,14 +207,14 @@ function CartGen(cart) {
   writer += "<div class='property'>";
   pizziterate = 0;
   cart.pizzas.forEach(function(thispizza) {
-    writer += "<br><div id='pizza" + pizziterate + "'>";
+    writer += "<br><div id='pizza" + pizziterate + " '>";
     writer += thispizza.size.name;
     if (thispizza.toppings.length == 0) {
 
-      writer += thispizza.size.price + " pizza";
+      writer += " cheese pizza ";
     }
     if (thispizza.toppings.length > 0) {
-      writer += "with:<br>";
+      writer += "<br>with:<br>";
     }
 
     thispizza.toppings.forEach(function(top) {
@@ -235,6 +300,7 @@ function BuyPizza(cart) {
   }
   $("#histmove").html(histwriter);
 }
+$("#subtcon").hide();
 }
 
 function TotalPrint(cart) {

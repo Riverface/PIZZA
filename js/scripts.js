@@ -1,7 +1,6 @@
 $(document).ready(function() {
+
   Init();
-
-
 });
 
 //initialize all components
@@ -13,27 +12,27 @@ function Init() {
   AddProps(parlor);
   HideBotnik();
   InitialPrint(parlor);
-  AddHooks(parlor, user,vid);
+  AddHooks(parlor, user, vid);
   $("#histshell").hide();
   $("#subtcon").hide();
   AddRemote(vid);
 }
 
 //Add functionality to the volume control remote
-function AddRemote(vid){
-  $("#volup").click(function(){
+function AddRemote(vid) {
+  $("#volup").click(function() {
     vid.volume += .05;
   });
-  $("#voldown").click(function(){
+  $("#voldown").click(function() {
     vid.volume -= .05;
   });
-  $("#mute").click(function(){
+  $("#mute").click(function() {
 
-    vid.muted =  !vid.muted;
+    vid.muted = !vid.muted;
   });
 
-    var storedVolume = 0;
-      vid.volume = 0.75;
+  var storedVolume = 0;
+  vid.volume = 0.75;
 }
 //add properties
 function AddProps(parl) {
@@ -43,38 +42,41 @@ function AddProps(parl) {
     new Size("medium", 8.00),
     new Size("Large", 10.00)
   ];
+//"Appetizing" toppings
   parl.toppings = [
     new Topping("Pepperoni", 1.00),
-    new Topping("Iodine",0.00),
+    new Topping("Iodine", 0.00),
     new Topping("Beets", 2.00),
     new Topping("Nerds rope", 2.00),
     new Topping("creamed corn", .50),
     new Topping("Gravel", 0),
-    new Topping("Anchovies",2.00),
+    new Topping("Anchovies", 2.00),
     new Topping("Dust", 0),
     new Topping("Ash", 0),
-    new Topping("toenails",5.00),
-    new Topping("olives",.50),
-    new Topping("Salami",1.00),
+    new Topping("toenails", 5.00),
+    new Topping("olives", .50),
+    new Topping("Salami", 1.00),
     new Topping("Chicken", 1.00),
     new Topping("sausage", 1.00)
   ];
 }
 
 //Add hooks/listeners
-function AddHooks(parl, cart,vid) {
+function AddHooks(parl, cart, vid) {
   $("#addbutton").click(function() {
     $("#subtotal").empty();
     peetz = new Pizza();
     $("#toppings").val().forEach(function(top) {
       peetz.toppings.push(parl.toppings[top]);
     });
+
     peetz.size = parl.sizes[$("#sizes").val()];
-    CheckBotnik(peetz,vid);
+    CheckBotnik(peetz, vid);
     cart.pizzas.push(peetz);
     CartGen(cart);
     $("#subtcon").show();
   });
+
   $("#histmove").change(function() {
     MoveHist(cart, $('#histmove').val());
 
@@ -82,7 +84,7 @@ function AddHooks(parl, cart,vid) {
   $("#buybutton").click(function() {
     BuyPizza(cart);
     MoveHist(cart, (cart.history.length - 1));
-    $("#histmove").val(cart.history.length-1);
+    $("#histmove").val(cart.history.length - 1);
     $("#histshell").show();
 
   });
@@ -105,65 +107,72 @@ function InitialPrint(parl) {
   $("#toppings").append(parl.ToppingWriter());
 }
 //See if it's time for Robotnik to wake up and/or perform
-function CheckBotnik(pizz,vid) {
+function CheckBotnik(pizz, vid) {
   iterate = 0;
-  pingas=0;
+  pingas = 0;
+//Does robotnik like your topping choice?
   pizz.toppings.forEach(function(topper) {
     if (topper.name === "Pepperoni" ||
     topper.name == "Iodine" ||
     topper.name == "Nerds rope" ||
-     topper.name == "Gravel" ||
-     topper.name == "Anchovies" ||
-     topper.name == "Salami"
-  ){
+    topper.name == "Gravel" ||
+    topper.name == "Anchovies" ||
+    topper.name == "Salami"
+  ) {
     pingas++;
   }
-    if ((topper.name === "Ash") || (topper.name === "Dust")) {
+  if ((topper.name === "Ash") || (topper.name === "Dust")) {
 
-      iterate++;
+    iterate++;
 
-    } else {
-      iterate--;
-    }
+  } else {
+    iterate--;
+  }
+//check if Robotnik's gonna wake up
+  if (iterate == 2) {
+    $("#interface").hide();
+    $(".jumbotron").hide();
+    $("#createpizza").hide();
+    $("#buypizza").hide();
+    $("#ashdust").show();
+    $("#pizzasign").hide();
+    $("#subtcon").hide();
+    $("#ashdustvideo")[0].play();
+  }
 
-    if (iterate == 2) {
-      $(".jumbotron").hide();
-      $("#createpizza").hide();
-      $("#buypizza").hide();
-      $("#ashdust").show();
-      $("#pizzasign").hide();
-      $("#subtcon").hide();
-      $("#ashdustvideo")[0].play();
-    }
-    if (pingas == 6) {
-      $(".jumbotron").hide();
-      $("#ashdust").hide();
-      $("#interface").hide();
-      $("#ashdustvideo").hide();
-      $("#ashdustvideo")[0].pause();
-      vid.pause();
-      vid = $("#tomorrowill")[0];
-      vid.play();
-      $("#tomorrowill").show();
-      $(document.body).css("background-image", "url(./media/dance.gif)");
-    }
-  });
+  //Compare number of toppings
+  //robotnik likes
+  // to number that triggers his performance
+  if (pingas == 6) {
+    $(".jumbotron").hide();
+    $("#ashdust").hide();
+    $("#interface").hide();
+    $("#ashdustvideo").hide();
+    $("#ashdustvideo")[0].pause();
+    vid.pause();
+    vid = $("#tomorrowill")[0];
+    vid.play();
+    $("#tomorrowill").show();
+    $(document.body).css("background-image", "url(./media/dance.gif)");
+  }
+});
 }
-//
+//Cart object
+
 function Cart(pizzas) {
   this.pizzas = [];
   this.price = countsubtotal(this);
   this.history = []
   this.currpos;
 }
-
+//Count the subtotal and return on #subtotal
 function countsubtotal(shoppingcart) {
   shoppingcart.pizzas.forEach(function(peetza) {
     subtotal += peetza.price;
     return subtotal;
   });
 }
-
+//The pizza parlor
 function Parlor() {
   this.toppings = [];
   this.pizzas = [];
@@ -171,12 +180,12 @@ function Parlor() {
   this.subtotal = "";
 
 }
-
+//Sizes of pizzas
 function Size(name, price) {
   this.name = name;
   this.price = price;
 }
-
+//Toppings that go on pizzas
 function Topping(name, price) {
   this.name = name;
   this.price = price;
@@ -184,21 +193,23 @@ function Topping(name, price) {
 
 }
 
-
+//Pizza object
 function Pizza(size) {
   this.toppings = [];
   this.size = size;
 }
 
+//Writes toppings onto the page
 Parlor.prototype.ToppingWriter = function() {
   writer = "";
-
+//loop through all of the toppings in the parlor, spit them out into the <select>
   for (var currtop = 0; this.toppings.length > currtop; currtop++) {
     writer += "<option value='" + currtop + "'>" + this.toppings[currtop].name + "</option>";
   }
   return writer;
 }
 
+//Generate the subtotal and effectively create a "cart"
 function CartGen(cart) {
   $("#subtotal").empty();
   writer = null;
@@ -216,7 +227,6 @@ function CartGen(cart) {
     if (thispizza.toppings.length > 0) {
       writer += "<br>with:<br>";
     }
-
     thispizza.toppings.forEach(function(top) {
       writer += top.name;
       writer += top.price.toFixed(2);
@@ -229,21 +239,16 @@ function CartGen(cart) {
     pizziterate++;
 
   });
-
-
-  //AddCloseButton(pizziterate,cart);
-
+  //Add the close button
   AddCloseButton(cart);
   return writer;
 }
 
+//Lists the sizes applicable to pizzas on the page.
 Parlor.prototype.listsizes = function() {
   sizewriter = "";
-
+//Loop through the sizes, print to <select>
   for (var currsize = 0; this.sizes.length > currsize; currsize++) {
-
-
-
     sizewriter += "<option value='";
     sizewriter += currsize;
     sizewriter += "'>";
@@ -255,6 +260,9 @@ Parlor.prototype.listsizes = function() {
 }
 
 function AddCloseButton(cart) {
+//use a second writer
+//to make absolute sure these functions won't overload
+//no matter what is added
   secondwriter = "";
 
   for (var pizziterate = 0; pizziterate < cart.pizzas.length; pizziterate++) {
@@ -280,6 +288,7 @@ Pizza.prototype.price = function() {
   return theprice;
 }
 Cart.prototype.total = function() {
+  //count up total pizza prices
   totalprice = 0;
   this.pizzas.forEach(function(thepizza) {
     totalprice += thepizza.price();
@@ -287,26 +296,26 @@ Cart.prototype.total = function() {
 }
 
 function BuyPizza(cart) {
-  if(cart.pizzas != []){
+  if (cart.pizzas != []) {
 
-  cart.history.push(CartGen(cart));
+    cart.history.push(CartGen(cart));
 
-  TotalPrint(cart);
-  $("#histmove").html();
-  histwriter = "";
-  for (var writeiterate = 0; writeiterate < cart.history.length; writeiterate++) {
-    histwriter += "<option name='" + "' value='" + writeiterate + "'>" + writeiterate + "</option>";
+    TotalPrint(cart);
+    $("#histmove").html();
+    histwriter = "";
+    for (var writeiterate = 0; writeiterate < cart.history.length; writeiterate++) {
+      histwriter += "<option name='" + "' value='" + writeiterate + "'>" + writeiterate + "</option>";
 
+    }
+    $("#histmove").html(histwriter);
   }
-  $("#histmove").html(histwriter);
-}
-$("#subtcon").hide();
+  $("#subtcon").hide();
 }
 
 function TotalPrint(cart) {
+  //print the total for the order before it's sent
   $("#subtotal").empty();
   writer = null;
-
   writer = "<div class='propertyLabel'>Receipt</div>";
   writer += "<div class='property'>";
   pizziterate = 0;
@@ -339,14 +348,11 @@ function TotalPrint(cart) {
   });
 
 
-  //AddCloseButton(pizziterate,cart);
-
+  //Add a close button
   AddCloseButton(cart);
-  //return writer;
 
+  //MAKE ABSOLUTELY CERTAIN NO OVERLOADING HAPPENS WITH ---THIRD--- WRITER
   thirdwriter = "";
-
-
 
   for (currhist = 0; currhist < cart.history.length; currhist++) {
     thirdwriter += "<div id='history" + currhist + "'>";
@@ -360,6 +366,7 @@ function TotalPrint(cart) {
 
 }
 
+//this happens when you change which order is selected
 function MoveHist(cart, target) {
   var hysterectomy = 0; //history iterator
   for (hysterectomy = 0; hysterectomy < cart.history.length; hysterectomy++) {

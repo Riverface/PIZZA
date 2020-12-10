@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
   <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="css/master.css">
@@ -12,73 +13,76 @@
   <title></title>
 
 </head>
+
 <body>
 
   <div class="jumbotron" id='pizzasign'>
     <h1>Pizza, I think?</h1>
   </div>
   <div id='interface' style='overflow:hidden;'>
-    <video src="media/Ebdrugstore.mp4" width="0" height="0"  id="ebselect" autoplay loop="true">
+    <video src="media/Ebdrugstore.mp4" width="0" height="0" id="ebselect" autoplay loop="true">
+
+    </video>
+    <div class="remote animated">
+      Remote
+
+      <hr>
+      VOL
+
+      <button id="volup" class="btn-default">+</button>
+      <button id="voldown" class="btn-default">-</button><br><br>
+      <button id="mute" class="btn-default"> Mute </button>
+      <hr>
+    </div>
+    <div class="entry animated" id='createpizza' style='height:430px; overflow:hidden'>
+      Create Pizza
+      <select class="btn" id='sizes' name="">
+
+      </select>
+      <br>
+      <br>
+      <select class="btn" style='width:200px; height:200px' multiple id='toppings' name="">
+
+      </select>
+      <br><br>
+      <button id='addbutton' type="button" class='btn-default' name="button">Add to Cart</button>
+      <div class="">
+
+      </div>
+    </div>
+
+    <div class="entry animated" id='subtcon'>
+
+      <div class="" id='subtotal'>
+      </div>
+      <input type='button' class="btn-default" id='buybutton' value='Buy'></input>
+    </div>
+    <div class="">
+
+    </div>
+
+    <div class="entry" id='histshell'>
+      <select class="" id='histmove' name="">
+
+      </select>
+      <div id='history'>
+
+      </div>
+
+
+    </div>
+  </div>
+  <!-- Robotnik stuff  -->
+  <div class="" id='ashdust'>
+    <video src="media/Ash_and_Dust.mp4" type='video/mp4' volume='100%' id='ashdustvideo'>
+
+    </video>
+
+
+  </div>
+  <video src="media/tomorrowill.mp4" type='video/mp4' volume='100%' id='tomorrowill'>
 
   </video>
-  <div class="remote animated">
-    Remote
-
-    <hr>
-    VOL
-
-    <button id="volup" class="btn-default">+</button>
-    <button id="voldown" class="btn-default">-</button><br><br>
-    <button id="mute" class="btn-default"> Mute </button>
-    <hr>
-  </div>
-  <div class="entry animated" id='createpizza' style='height:430px; overflow:hidden'>
-  Create Pizza
-  <select class="btn" id= 'sizes' name="">
-
-  </select>
-<br>
-<br>
-  <select class="btn" style='width:200px; height:200px' multiple id='toppings'  name="">
-
-  </select>
-  <br><br>
-  <button id='addbutton' type="button" class='btn-default' name="button">Add to Cart</button>
-  <div class="">
-
-  </div>
-  </div>
-  <div class="entry animated" id='subtcon'>
-
-<div class="" id='subtotal'>
-</div>
-  <input type='button' class="btn-default" id='buybutton' value='Buy'></input>
-</div>
-<div class="">
-
-</div>
-
-<div class="entry" id='histshell'>
-  <select class="" id='histmove' name="">
-
-  </select>
-  <div id='history'>
-
-</div>
-
-
-</div>
-</div>
-<!-- Robotnik stuff  -->
-<div class="" id='ashdust'>
-<video src="media/Ash_and_dust.mp4" type='video/mp4' volume='100%' id='ashdustvideo'>
-
-</video>
-
-
-</div>
-<video src="media/tomorrowill.mp4" type='video/mp4' volume='100%' id='tomorrowill'>
-
-</video>
 </body>
+
 </html>

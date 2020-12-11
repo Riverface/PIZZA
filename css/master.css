@@ -171,7 +171,7 @@ z-index: 1000;
 body{
 
   background: transparent;
-  background-image: url(space.gif);
+  background-image: url("../media/space.gif");
   background-repeat: repeat;
   animation-name: bgmove;
   animation-duration: 10s;

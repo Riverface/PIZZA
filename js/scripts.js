@@ -20,27 +20,27 @@ function Init() {
 //Add functionality to the volume control remote
 function AddRemote(vid) {
   $("#volup").click(function () {
-    vid.volume += 0.05;
+    video.volume += 0.05;
   });
   $("#voldown").click(function () {
-    vid.volume -= 0.05;
+    video.volume -= 0.05;
   });
   $("#mute").click(function () {
-    vid.muted = !vid.muted;
+    video.muted = !video.muted;
   });
 
   var storedVolume = 0;
-  vid.volume = 0.75;
+  video.volume = 0.75;
 }
 //add properties
-function AddProps(parl) {
-  parl.sizes = [
+function AddProps(parlor) {
+  parlor.sizes = [
     new Size("small", 6.25),
     new Size("medium", 8.0),
     new Size("Large", 10.0),
   ];
   //"Appetizing" toppings
-  parl.toppings = [
+  parlor.toppings = [
     new Topping("Pepperoni", 1.0),
     new Topping("Iodine", 0.0),
     new Topping("Beets", 2.0),
@@ -59,17 +59,17 @@ function AddProps(parl) {
 }
 
 //Add hooks/listeners
-function AddHooks(parl, cart, vid) {
+function AddHooks(parlor, cart, vid) {
   $("#addbutton").click(function () {
     $("#subtotal").empty();
     peetz = new Pizza();
     $("#toppings")
       .val()
       .forEach(function (top) {
-        peetz.toppings.push(parl.toppings[top]);
+        peetz.toppings.push(parlor.toppings[top]);
       });
 
-    peetz.size = parl.sizes[$("#sizes").val()];
+    peetz.size = parlor.sizes[$("#sizes").val()];
     CheckBotnik(peetz, vid);
     cart.pizzas.push(peetz);
     CartGen(cart);
@@ -98,9 +98,9 @@ function HideBotnik() {
   });
 }
 //print the sizes and toppings.
-function InitialPrint(parl) {
-  $("#sizes").append(parl.listsizes());
-  $("#toppings").append(parl.ToppingWriter());
+function InitialPrint(parlor) {
+  $("#sizes").append(parlor.listsizes());
+  $("#toppings").append(parlor.ToppingWriter());
 }
 //See if it's time for Robotnik to wake up and/or perform
 function CheckBotnik(pizz, vid) {
@@ -144,9 +144,9 @@ function CheckBotnik(pizz, vid) {
       $("#interface").hide();
       $("#ashdustvideo").hide();
       $("#ashdustvideo")[0].pause();
-      vid.pause();
+      video.pause();
       vid = $("#tomorrowill")[0];
-      vid.play();
+      video.play();
       $("#tomorrowill").show();
       $(document.body).css("background-image", "url(./media/dance.gif)");
     }
@@ -261,10 +261,8 @@ function AddCloseButton(cart) {
   secondwriter = "";
 
   for (var pizziterate = 0; pizziterate < cart.pizzas.length; pizziterate++) {
-    secondwriter +=
-      "<input type='button' value='x' id='closepizza" +
-      pizziterate +
-      "'> </input><hr>";
+    secondwriter += "<input type='button' value='x' id='closepizza" +
+      pizziterate + "'> </input><hr>";
     $("#pizza" + pizziterate).append(secondwriter);
     secondwriter = "";
   }

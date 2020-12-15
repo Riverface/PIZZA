@@ -4,7 +4,7 @@
 #### By _Robert Smith_ 
 ## Instructions
 - `git clone` via [git](https://git-scm.com/downloads) bash or download the repository (green button labeled "code" above) to the directory of your choosing.
-- Open HTML file in browser.
+- Open `index.HTML` file in browser.
 
 Alternatively use [github pages](https://riverface.github.io/PIZZA/)
 ## How to use

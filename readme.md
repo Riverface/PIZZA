@@ -15,7 +15,7 @@
 
 <sup><sub> make it end.</sub></sup>
 
-You come across a Pizza place with the silhouette of a strange manager in t he window, portly and sleeping. Almost egg-shaped.
+You come across a Pizza place with the silhouette of a strange manager in the window, portly and sleeping. Almost egg-shaped.
 
 ## Instructions
 

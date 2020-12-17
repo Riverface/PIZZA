@@ -7,6 +7,13 @@
 - Open `index.HTML` file in browser.
 
 Alternatively use [github pages](https://riverface.github.io/PIZZA/)
+## Plain English Specs
+| Behavior                                             |                      Input                      |                     Output |
+| :--------------------------------------------------- | :---------------------------------------------: | -------------------------: |
+| User can create a small cheese pizza (default pizza) |            User clicks "Add to cart"            |            Returns a pizza |
+| User can create a large pizza with everything on it  |        User specifies Toppings and size         |     Returns ordered pizza. |
+| User can "Buy" Pizzas                                | User adds pizza(s) to the cart, then clicks Buy | Returns Receipt for pizzas |
+
 ## How to use
 
 - You can select as many toppings as you want, but be aware that certain toppings cost more than others.
